@@ -1,25 +1,35 @@
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import "./App.css";
+import { observer, useObservable} from "mobx-react-lite";
 
-function App() {
+const App = observer(() => {
+  const store = useObservable({
+    count: 1,
+    addOne() {
+      store.count++;
+    },
+    subtractOne() {
+      store.count--;
+    }
+  });
+
+  function addOneHandle() {
+    store.addOne();
+  }
+
+  function subtractOneHandle() {
+    store.subtractOne();
+  }
+
   return (
     <div className="App">
       <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+        <h1> Count: {store.count}</h1>
+        <button onClick={addOneHandle}> Add One</button>
+        <button onClick={subtractOneHandle}>Subtract One</button>
       </header>
     </div>
   );
-}
+});
 
 export default App;
